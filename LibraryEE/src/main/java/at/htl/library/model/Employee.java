@@ -9,7 +9,7 @@ public class Employee extends Person {
     private Double salary;
     private Person manager;
 
-    public Employee(Long empno, LocalDateTime hireDate, Double salary, Person manager, Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long streetNo, Long postalCode, String city, Long phoneNo, String email) {
+    public Employee(Long empno, LocalDateTime hireDate, Double salary, Person manager, Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long streetNo, Long postalCode, String city, String phoneNo, String email) {
         super(ssno, firstName, lastName, dateOfBirth, gender, street, streetNo, postalCode, city, phoneNo, email);
         this.empno = empno;
         this.hireDate = hireDate;

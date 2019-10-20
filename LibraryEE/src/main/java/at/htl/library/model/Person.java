@@ -13,10 +13,10 @@ public class Person {
     private Long streetNo;
     private Long postalCode;
     private String city;
-    private Long phoneNo;
+    private String phoneNo;
     private String email;
 
-    public Person(Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long streetNo, Long postalCode, String city, Long phoneNo, String email) {
+    public Person(Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long streetNo, Long postalCode, String city, String phoneNo, String email) {
         this.ssno = ssno;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -106,11 +106,11 @@ public class Person {
         this.city = city;
     }
 
-    public Long getPhoneNo() {
+    public String getPhoneNo() {
         return phoneNo;
     }
 
-    public void setPhoneNo(Long phoneNo) {
+    public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
 
