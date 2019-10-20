@@ -9,8 +9,8 @@ public class Employee extends Person {
     private Double salary;
     private Person manager;
 
-    public Employee(Long empno, LocalDateTime hireDate, Double salary, Person manager, Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long streetNo, Long postalCode, String city, String phoneNo, String email) {
-        super(ssno, firstName, lastName, dateOfBirth, gender, street, streetNo, postalCode, city, phoneNo, email);
+    public Employee(Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long postalCode, String city, String phoneNo, String email, Long empno, LocalDateTime hireDate, Double salary, Person manager) {
+        super(ssno, firstName, lastName, dateOfBirth, gender, street, postalCode, city, phoneNo, email);
         this.empno = empno;
         this.hireDate = hireDate;
         this.salary = salary;

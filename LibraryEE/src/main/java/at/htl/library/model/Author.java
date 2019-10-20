@@ -9,8 +9,8 @@ public class Author extends Person {
     private Long authorNo;
     private List<Book> publications = new LinkedList<>();
 
-    public Author(Long authorNo, List<Book> publications, Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long streetNo, Long postalCode, String city, String phoneNo, String email) {
-        super(ssno, firstName, lastName, dateOfBirth, gender, street, streetNo, postalCode, city, phoneNo, email);
+    public Author(Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long postalCode, String city, String phoneNo, String email, Long authorNo, List<Book> publications) {
+        super(ssno, firstName, lastName, dateOfBirth, gender, street, postalCode, city, phoneNo, email);
         this.authorNo = authorNo;
         this.publications = publications;
     }

@@ -10,20 +10,18 @@ public class Person {
     private LocalDateTime dateOfBirth;
     private String gender;
     private String street;
-    private Long streetNo;
     private Long postalCode;
     private String city;
     private String phoneNo;
     private String email;
 
-    public Person(Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long streetNo, Long postalCode, String city, String phoneNo, String email) {
+    public Person(Long ssno, String firstName, String lastName, LocalDateTime dateOfBirth, String gender, String street, Long postalCode, String city, String phoneNo, String email) {
         this.ssno = ssno;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.street = street;
-        this.streetNo = streetNo;
         this.postalCode = postalCode;
         this.city = city;
         this.phoneNo = phoneNo;
@@ -80,14 +78,6 @@ public class Person {
 
     public void setStreet(String street) {
         this.street = street;
-    }
-
-    public Long getStreetNo() {
-        return streetNo;
-    }
-
-    public void setStreetNo(Long streetNo) {
-        this.streetNo = streetNo;
     }
 
     public Long getPostalCode() {

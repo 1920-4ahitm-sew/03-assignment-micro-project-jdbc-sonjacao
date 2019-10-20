@@ -5,7 +5,6 @@ public class PublishingHouse {
     private Long publisherNo;
     private String publisherName;
     private String street;
-    private Long streetNo;
     private Long postalCode;
     private String city;
     private String country;
@@ -14,7 +13,6 @@ public class PublishingHouse {
         this.publisherNo = publisherNo;
         this.publisherName = publisherName;
         this.street = street;
-        this.streetNo = streetNo;
         this.postalCode = postalCode;
         this.city = city;
         this.country = country;
@@ -47,14 +45,6 @@ public class PublishingHouse {
 
     public void setStreet(String street) {
         this.street = street;
-    }
-
-    public Long getStreetNo() {
-        return streetNo;
-    }
-
-    public void setStreetNo(Long streetNo) {
-        this.streetNo = streetNo;
     }
 
     public Long getPostalCode() {
