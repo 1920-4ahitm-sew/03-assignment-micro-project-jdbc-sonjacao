@@ -1,8 +1,8 @@
 package at.htl.library.model;
 
-import javax.json.bind.annotation.JsonbAnnotation;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@JsonbAnnotation
+@XmlRootElement
 public class PublishingHouse {
 
     private Long publisherNo;
