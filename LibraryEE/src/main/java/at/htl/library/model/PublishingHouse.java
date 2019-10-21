@@ -1,5 +1,8 @@
 package at.htl.library.model;
 
+import javax.json.bind.annotation.JsonbAnnotation;
+
+@JsonbAnnotation
 public class PublishingHouse {
 
     private Long publisherNo;
@@ -9,7 +12,7 @@ public class PublishingHouse {
     private String city;
     private String country;
 
-    public PublishingHouse(Long publisherNo, String publisherName, String street, Long streetNo, Long postalCode, String city, String country) {
+    public PublishingHouse(Long publisherNo, String publisherName, String street, Long postalCode, String city, String country) {
         this.publisherNo = publisherNo;
         this.publisherName = publisherName;
         this.street = street;
