@@ -41,4 +41,33 @@ public class LibraryEndpoint {
         }
     }
 
+    @GET
+    @Path("{id}")
+    public PublishingHouse findPublishingHouse(@PathParam("id") long id) {
+
+        initJdbc();
+
+        int publisherno = toIntExact(id);
+        PublishingHouse publishingHouse = new PublishingHouse();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("" +
+                    "select PUBLISHER_NO, PUBLISHER_NAME, STREET, POSTAL_CODE, CITY, COUNTRY from PUBLISHING_HOUSE where PUBLISHER_NO=?");
+            pstmt.setInt(1, publisherno);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                publishingHouse.setPublisherNo(rs.getLong(1));
+                publishingHouse.setPublisherName(rs.getString(2));
+                publishingHouse.setStreet(rs.getString(3));
+                publishingHouse.setPostalCode(rs.getLong(4));
+                publishingHouse.setCity(rs.getString(5));
+                publishingHouse.setCountry(rs.getString(6));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        teardownJdbc();
+        return publishingHouse;
+    }
 }
