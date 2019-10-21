@@ -78,6 +78,6 @@ public class PublishingHouse {
 
     @Override
     public String toString() {
-        return String.format("Publisher %s", this.publisherName);
+        return String.format("Publisher: %s", this.publisherName);
     }
 }
