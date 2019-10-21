@@ -6,6 +6,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 import static java.lang.Math.toIntExact;
 
@@ -69,5 +71,38 @@ public class LibraryEndpoint {
 
         teardownJdbc();
         return publishingHouse;
+    }
+
+    @GET
+    @Path("all")
+    public List<PublishingHouse> findAllPublishingHouses() {
+
+        List<PublishingHouse> publishingHouseList = new LinkedList<>();
+
+        initJdbc();
+
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("" +
+                    "select PUBLISHER_NO, PUBLISHER_NAME, STREET, POSTAL_CODE, CITY, COUNTRY from PUBLISHING_HOUSE");
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                PublishingHouse publishingHouse = new PublishingHouse();
+                publishingHouse.setPublisherNo(rs.getLong(1));
+                publishingHouse.setPublisherName(rs.getString(2));
+                publishingHouse.setStreet(rs.getString(3));
+                publishingHouse.setPostalCode(rs.getLong(4));
+                publishingHouse.setCity(rs.getString(5));
+                publishingHouse.setCountry(rs.getString(6));
+                // add to list
+                publishingHouseList.add(publishingHouse);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        teardownJdbc();
+        return publishingHouseList;
     }
 }
