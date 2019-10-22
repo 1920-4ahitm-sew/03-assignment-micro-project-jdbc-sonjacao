@@ -34,7 +34,7 @@ public class LibraryEndpoint {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void save(PublishingHouse publishingHouse) {
-        System.out.println("Publishing House = " + publishingHouse);
+    public void insertPublishingHouse(PublishingHouse publishingHouse) {
+        db.insertPublishingHouse(publishingHouse);
     }
 }
