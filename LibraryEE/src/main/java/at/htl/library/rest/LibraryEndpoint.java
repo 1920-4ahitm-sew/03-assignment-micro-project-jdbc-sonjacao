@@ -2,10 +2,7 @@ package at.htl.library.rest;
 
 import at.htl.library.model.PublishingHouse;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.*;
 import java.util.LinkedList;
@@ -107,5 +104,30 @@ public class LibraryEndpoint {
 
         teardownJdbc();
         return publishingHouseList;
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void deletePublishingHouse(@PathParam("id") long id) {
+
+        initJdbc();
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("" +
+                    "delete from PUBLISHING_HOUSE where PUBLISHER_NO=?");
+            pstmt.setInt(1, toIntExact(id));
+
+            if(pstmt.execute()) {
+                System.out.println("Successfully deleted publishing house with publisher number: " + id);
+            } else {
+                System.out.println("No publishing house found with publisher number " + id);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        teardownJdbc();
+
     }
 }
