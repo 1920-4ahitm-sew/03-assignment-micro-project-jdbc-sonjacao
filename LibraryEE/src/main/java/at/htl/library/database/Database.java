@@ -116,4 +116,26 @@ public class Database {
         teardownJdbc();
 
     }
+
+    public void createPublishingHouse(PublishingHouse publishingHouse) {
+        initJdbc();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("" +
+                    "insert into PUBLISHING_HOUSE(PUBLISHER_NO, PUBLISHER_NAME, STREET, POSTAL_CODE, CITY, COUNTRY) " +
+                    "VALUES (?,?,?,?,?,?)");
+            pstmt.setInt(1, toIntExact(publishingHouse.getPublisherNo()));
+            pstmt.setString(2, publishingHouse.getPublisherName());
+            pstmt.setString(3, publishingHouse.getStreet());
+            pstmt.setInt(4, toIntExact(publishingHouse.getPostalCode()));
+            pstmt.setString(5, publishingHouse.getCity());
+            pstmt.setString(6, publishingHouse.getCountry());
+
+            pstmt.execute();
+            System.out.println("Inserted " + publishingHouse);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        teardownJdbc();
+    }
 }
