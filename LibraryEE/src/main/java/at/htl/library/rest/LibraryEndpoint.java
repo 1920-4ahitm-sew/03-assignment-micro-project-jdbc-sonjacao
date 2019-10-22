@@ -5,6 +5,8 @@ import at.htl.library.model.PublishingHouse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,6 +46,7 @@ public class LibraryEndpoint {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public PublishingHouse findPublishingHouse(@PathParam("id") long id) {
 
@@ -74,7 +77,7 @@ public class LibraryEndpoint {
     }
 
     @GET
-    @Path("all")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<PublishingHouse> findAllPublishingHouses() {
 
         List<PublishingHouse> publishingHouseList = new LinkedList<>();
