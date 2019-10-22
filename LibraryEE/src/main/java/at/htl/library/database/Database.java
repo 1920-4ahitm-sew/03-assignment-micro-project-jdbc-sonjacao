@@ -117,12 +117,13 @@ public class Database {
 
     }
 
-    public void createPublishingHouse(PublishingHouse publishingHouse) {
+    // insert new row into table
+    public void insertPublishingHouse(PublishingHouse publishingHouse) {
         initJdbc();
         try {
             PreparedStatement pstmt = connection.prepareStatement("" +
                     "insert into PUBLISHING_HOUSE(PUBLISHER_NO, PUBLISHER_NAME, STREET, POSTAL_CODE, CITY, COUNTRY) " +
-                    "VALUES (?,?,?,?,?,?)");
+                    "values (?,?,?,?,?,?)");
             pstmt.setInt(1, toIntExact(publishingHouse.getPublisherNo()));
             pstmt.setString(2, publishingHouse.getPublisherName());
             pstmt.setString(3, publishingHouse.getStreet());
@@ -138,4 +139,28 @@ public class Database {
         }
         teardownJdbc();
     }
+
+    // update existing row in the table
+    public void updatePublishingHouse(PublishingHouse publishingHouse) {
+        initJdbc();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("" +
+                    "update PUBLISHING_HOUSE set PUBLISHER_NAME=?, STREET=?, POSTAL_CODE=?, CITY=?, COUNTRY=? " +
+                    "where PUBLISHER_NO=?");
+            pstmt.setString(1, publishingHouse.getPublisherName());
+            pstmt.setString(2,publishingHouse.getStreet());
+            pstmt.setInt(3, toIntExact(publishingHouse.getPostalCode()));
+            pstmt.setString(4, publishingHouse.getCity());
+            pstmt.setString(5, publishingHouse.getCountry());
+            pstmt.setInt(6, toIntExact(publishingHouse.getPublisherNo()));
+            pstmt.execute();
+
+            System.out.println("Updated " + publishingHouse);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        teardownJdbc();
+    }
+
 }
