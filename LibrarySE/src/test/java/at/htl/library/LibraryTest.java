@@ -4,10 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -46,4 +43,87 @@ public class LibraryTest {
         }
     }
 
+    @Test
+    public void test01Create() {
+        try {
+            Statement stmt = connection.createStatement();
+
+            String sql = "CREATE TABLE test_table(" +
+                    " id INT CONSTRAINT PK_id PRIMARY KEY," +
+                    " type varchar(255) NOT NULL)";
+            stmt.execute(sql);
+            stmt.execute("drop table test_table");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test02Insert() {
+        try {
+            Statement stmt = connection.createStatement();
+
+            String sql = "INSERT INTO PUBLISHING_HOUSE(PUBLISHER_NO, PUBLISHER_NAME, STREET, POSTAL_CODE, CITY, COUNTRY) " +
+                    " VALUES(100000, 'Springer-Verlag GmbH', 'Tiergartenstrasse 17', 69121, 'Heidelberg', 'Germany')";
+            assertThat(stmt.executeUpdate(sql), is(1));
+            stmt.execute("delete from PUBLISHING_HOUSE where PUBLISHER_NO=100000");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test03Update() {
+        try {
+            Statement stmt = connection.createStatement();
+
+            String sql = "INSERT INTO PUBLISHING_HOUSE(PUBLISHER_NO, PUBLISHER_NAME, STREET, POSTAL_CODE, CITY, COUNTRY) " +
+                    " VALUES(100000, 'Springer-Verlag GmbH', 'Tiergartenstrasse 17', 69121, 'Heidelberg', 'Germany')";
+            stmt.execute(sql);
+
+            sql = "UPDATE PUBLISHING_HOUSE SET CITY='Berlin' WHERE PUBLISHER_NO=100000";
+            assertThat(stmt.executeUpdate(sql), is(1));
+            stmt.execute("delete from PUBLISHING_HOUSE where PUBLISHER_NO=100000");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test04Select() {
+        try {
+            Statement stmt = connection.createStatement();
+
+            String sql = "INSERT INTO PUBLISHING_HOUSE(PUBLISHER_NO, PUBLISHER_NAME, STREET, POSTAL_CODE, CITY, COUNTRY) " +
+                    " VALUES(100000, 'Springer-Verlag GmbH', 'Tiergartenstrasse 17', 69121, 'Heidelberg', 'Germany')";
+            stmt.execute(sql);
+
+            sql = "SELECT PUBLISHER_NO FROM PUBLISHING_HOUSE WHERE PUBLISHER_NO=100000";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            assertThat(rs.next(), is(true));
+            stmt.execute("delete from PUBLISHING_HOUSE where PUBLISHER_NO=100000");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test05Delete() {
+        try {
+            Statement stmt = connection.createStatement();
+
+            String sql = "INSERT INTO PUBLISHING_HOUSE(PUBLISHER_NO, PUBLISHER_NAME, STREET, POSTAL_CODE, CITY, COUNTRY) " +
+                    " VALUES(100000, 'Springer-Verlag GmbH', 'Tiergartenstrasse 17', 69121, 'Heidelberg', 'Germany')";
+            stmt.execute(sql);
+
+            sql = "DELETE FROM PUBLISHING_HOUSE WHERE PUBLISHER_NO=100000";
+            assertThat(stmt.executeUpdate(sql), is(1));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
