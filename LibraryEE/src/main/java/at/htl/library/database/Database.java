@@ -38,7 +38,6 @@ public class Database {
         try {
             if (connection != null || !connection.isClosed()) {
                 connection.close();
-                System.out.println("Connection to database closed.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
