@@ -1,5 +1,5 @@
 create table publishing_house (
-    publisher_no int,
+    publisher_no int constraint PK_publisher_no primary key ,
     publisher_name varchar(255),
     street varchar(255),
     postal_code int,
