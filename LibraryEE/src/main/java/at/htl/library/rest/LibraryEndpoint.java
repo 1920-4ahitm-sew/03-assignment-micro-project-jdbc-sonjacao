@@ -34,21 +34,26 @@ public class LibraryEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void insertPublishingHouse(PublishingHouse publishingHouse) {
-        db.insertPublishingHouse(publishingHouse);
+        if (publishingHouse != null) {
+            db.insertPublishingHouse(publishingHouse);
+        }
     }
 
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void updatePublishingHouse(@PathParam("id") long id, PublishingHouse otherPublishingHouse) {
-        PublishingHouse publishingHouse = db.selectPublishingHouse(id);
+        if (otherPublishingHouse != null) {
+            PublishingHouse publishingHouse = db.selectPublishingHouse(id);
 
-        publishingHouse.setPublisherName(otherPublishingHouse.getPublisherName());
-        publishingHouse.setStreet(otherPublishingHouse.getStreet());
-        publishingHouse.setPostalCode(otherPublishingHouse.getPostalCode());
-        publishingHouse.setCity(otherPublishingHouse.getCity());
-        publishingHouse.setCountry(otherPublishingHouse.getCountry());
+            publishingHouse.setPublisherName(otherPublishingHouse.getPublisherName());
+            publishingHouse.setStreet(otherPublishingHouse.getStreet());
+            publishingHouse.setPostalCode(otherPublishingHouse.getPostalCode());
+            publishingHouse.setCity(otherPublishingHouse.getCity());
+            publishingHouse.setCountry(otherPublishingHouse.getCountry());
 
-        db.updatePublishingHouse(publishingHouse);
+            db.updatePublishingHouse(publishingHouse);
+        }
+
     }
 }
