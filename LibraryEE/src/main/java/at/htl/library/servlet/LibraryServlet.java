@@ -24,8 +24,12 @@ public class LibraryServlet extends HttpServlet {
         output.println("<html>");
         output.println("<head>" +
                 "<title>Publishing Houses</title>" +
-                "<meta charset='UTF-8'>" +
-                "</head>");
+                "<meta charset='UTF-8'>");
+        output.println("<style>" +
+                "* {margin:0; padding:0; font-family:Arial}" +
+                "table{width:100%;text-align:center;}" +
+                "</style>");
+        output.println("</head>");
         output.println("<body>");
         output.println("<h1>Publishing Houses</h1>");
         output.println("<table>");
