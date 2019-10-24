@@ -45,4 +45,11 @@ public class LibraryEndpoint {
         em.remove(em.find(PublishingHouse.class, id));
         System.out.println("Deleted publishing house with id " + id);
     }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addPublishingHouse(PublishingHouse publishingHouse) {
+        em.persist(publishingHouse);
+        System.out.println("Added " + publishingHouse);
+    }
 }
