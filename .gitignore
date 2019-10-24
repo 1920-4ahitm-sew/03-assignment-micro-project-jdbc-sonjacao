@@ -112,5 +112,3 @@ $RECYCLE.BIN/
 # End of https://www.gitignore.io/api/java,linux,macos,maven,windows
 
 */target/**
-*.dat
-*/db/**
