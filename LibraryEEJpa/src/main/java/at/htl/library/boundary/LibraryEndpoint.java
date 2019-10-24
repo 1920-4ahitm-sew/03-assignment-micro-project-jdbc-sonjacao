@@ -23,21 +23,21 @@ public class LibraryEndpoint {
 
     @PostConstruct
     public void init() {
-        System.err.println("VehicleEndpoint created *****");
+        System.err.println("LibraryEndpoint created *****");
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public PublishingHouse getPublishingHouse(@PathParam("id") long id) {
-        return em.find(PublishingHouse.class,id);
+        return em.find(PublishingHouse.class, id);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<PublishingHouse> getAll() {
         return em
-                .createNamedQuery("PublishingHouse.findall",PublishingHouse.class)
+                .createNamedQuery("PublishingHouse.findall", PublishingHouse.class)
                 .getResultList();
     }
 }
