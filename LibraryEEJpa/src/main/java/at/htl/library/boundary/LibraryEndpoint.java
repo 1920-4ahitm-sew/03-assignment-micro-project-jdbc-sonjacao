@@ -52,4 +52,20 @@ public class LibraryEndpoint {
         em.persist(publishingHouse);
         System.out.println("Added " + publishingHouse);
     }
+
+    @PUT
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updatePublishingHouse(@PathParam("id") long id, PublishingHouse updatedPublishingHouse) {
+        PublishingHouse publishingHouse = em.find(PublishingHouse.class, id);
+
+        publishingHouse.setPublisherName(updatedPublishingHouse.getPublisherName());
+        publishingHouse.setStreet(updatedPublishingHouse.getStreet());
+        publishingHouse.setPostalCode(updatedPublishingHouse.getPostalCode());
+        publishingHouse.setCity(updatedPublishingHouse.getCity());
+        publishingHouse.setCountry(updatedPublishingHouse.getCountry());
+
+        em.merge(publishingHouse);
+        System.out.println("Updated " + publishingHouse);
+    }
 }
