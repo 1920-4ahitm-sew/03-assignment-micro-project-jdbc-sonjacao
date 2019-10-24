@@ -23,8 +23,6 @@ public class InitBean {
         em.persist(publishingHouse);
     }
 
-
-
     public void tearDown(@Observes @Destroyed(ApplicationScoped.class) Object init) {
         // when app is undeployed
     }

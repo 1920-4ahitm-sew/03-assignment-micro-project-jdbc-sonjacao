@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "PUBLISHING_HOUSE")
 @NamedQueries(
         @NamedQuery(
-                name = "Vehicle.findall",
+                name = "PublishingHouse.findall",
                 query = "select p from PublishingHouse p"
         )
 )
