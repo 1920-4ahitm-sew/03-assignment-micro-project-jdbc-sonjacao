@@ -6,10 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -39,5 +36,13 @@ public class LibraryEndpoint {
         return em
                 .createNamedQuery("PublishingHouse.findall", PublishingHouse.class)
                 .getResultList();
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void deletePublishingHouse(@PathParam("id") long id) {
+        em.remove(em.find(PublishingHouse.class, id));
+        System.out.println("Deleted publishing house with id " + id);
     }
 }
