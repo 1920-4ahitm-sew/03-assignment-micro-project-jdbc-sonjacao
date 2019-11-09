@@ -6,12 +6,17 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 
 @Stateless
-@Path("/")
+@Path("library")
 public class LibraryEndpoint {
     private int counter = 0;
 
@@ -41,22 +46,31 @@ public class LibraryEndpoint {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void deletePublishingHouse(@PathParam("id") long id) {
+    public Response deletePublishingHouse(@PathParam("id") long id) {
         em.remove(em.find(PublishingHouse.class, id));
-        System.out.println("Deleted publishing house with id " + id);
+        return Response.ok().build();
     }
 
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addPublishingHouse(PublishingHouse publishingHouse) {
-        em.persist(publishingHouse);
-        System.out.println("Added " + publishingHouse);
+    @Transactional
+    public Response createPublishingHouse(PublishingHouse publishingHouse, @Context UriInfo uriInfo) {
+        PublishingHouse ph = em.merge(publishingHouse);
+        Long id = ph.getId();
+        URI uri = uriInfo.getAbsolutePathBuilder().path("/" + id).build();
+        return Response
+                .created(uri)
+                .entity(publishingHouse)
+                .build();
     }
 
     @PUT
     @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updatePublishingHouse(@PathParam("id") long id, PublishingHouse updatedPublishingHouse) {
+    @Transactional
+    public Response updatePublishingHouse(@PathParam("id") long id, PublishingHouse updatedPublishingHouse) {
         PublishingHouse publishingHouse = em.find(PublishingHouse.class, id);
 
         publishingHouse.setPublisherName(updatedPublishingHouse.getPublisherName());
@@ -66,6 +80,10 @@ public class LibraryEndpoint {
         publishingHouse.setCountry(updatedPublishingHouse.getCountry());
 
         em.merge(publishingHouse);
-        System.out.println("Updated " + publishingHouse);
+
+        return Response
+                .ok()
+                .entity(publishingHouse)
+                .build();
     }
 }

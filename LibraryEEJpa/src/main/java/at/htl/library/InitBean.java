@@ -18,7 +18,7 @@ public class InitBean {
     EntityManager em;
 
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
-        System.out.println("*** It works! ***");
+
         em.persist(new PublishingHouse("CARLSEN Verlag GmbH", "Völckersstraße 14 - 20", 22765L, "Hamburg", "Germany"));
         em.persist(new PublishingHouse("Trauner Verlag + Buchservice GmbH", "Köglstraße 14", 4020L, "Linz", "Austria"));
         em.persist(new PublishingHouse("Springer-Verlag GmbH", "Tiergartenstrasse 17", 69121L, "Heidelberg", "Germany"));
