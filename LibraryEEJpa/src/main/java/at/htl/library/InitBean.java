@@ -9,6 +9,12 @@ import javax.enterprise.event.Observes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 @ApplicationScoped
 @Transactional
@@ -18,20 +24,24 @@ public class InitBean {
     EntityManager em;
 
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
-
-        em.persist(new PublishingHouse("CARLSEN Verlag GmbH", "Völckersstraße 14 - 20", 22765L, "Hamburg", "Germany"));
-        em.persist(new PublishingHouse("Trauner Verlag + Buchservice GmbH", "Köglstraße 14", 4020L, "Linz", "Austria"));
-        em.persist(new PublishingHouse("Springer-Verlag GmbH", "Tiergartenstrasse 17", 69121L, "Heidelberg", "Germany"));
-        em.persist(new PublishingHouse("Cornelsen Verlag GmbH", "Mecklenburgische Straße 53", 14197L, "Berlin", "Germany"));
-        em.persist(new PublishingHouse("Ernst Klett Verlag GmbH", "Rotebühlstraße 77", 70178L, "Stuttgart", "Germany"));
-        em.persist(new PublishingHouse("Georg Westermann Verlag, Druckerei und Kartographische Anstalt GmbH & Co. KG", "Georg-Westermann-Allee 66", 38104L, "Braunschweig", "Germany"));
-        em.persist(new PublishingHouse("Weltbild Verlag GmbH", "Sterneckstraße 33", 5020L, "Salzburg", "Austria"));
-        em.persist(new PublishingHouse("WEKA Holding GmbH & Co. KG", "Römerstraße 4", 86438L, "Kissing", "Germany"));
-        em.persist(new PublishingHouse("Verlagsgruppe Random House GmbH", "Neumarkter Straße 28", 81673L, "Munich", "Germany"));
-        em.persist(new PublishingHouse("Vogel Communications Group GmbH & Co.KG", "Max-Planck-Straße 7/9", 97082L, "Würzburg", "Germany"));
+            readPublishingHousesFromFile("publishingHouses.csv");
     }
 
     public void tearDown(@Observes @Destroyed(ApplicationScoped.class) Object init) {
         // when app is undeployed
+    }
+
+    private void readPublishingHousesFromFile(String phFileName) {
+
+        URL url = Thread.currentThread().getContextClassLoader()
+                .getResource(phFileName);
+        try (Stream<String> stream = Files.lines(Paths.get(url.getPath()), StandardCharsets.UTF_8)) {
+            stream.skip(1)
+                    .map((String s) -> s.split(";"))
+                    .map(a -> new PublishingHouse(a[0], a[1], Long.valueOf(a[2]), a[3], a[4]))
+                    .forEach(em::merge);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
