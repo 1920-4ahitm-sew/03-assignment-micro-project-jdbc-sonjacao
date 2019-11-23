@@ -1,5 +1,6 @@
 package at.htl.library;
 
+import at.htl.library.entity.Author;
 import at.htl.library.entity.Genre;
 import at.htl.library.entity.PublishingHouse;
 
@@ -15,6 +16,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
 @ApplicationScoped
@@ -27,6 +30,7 @@ public class InitBean {
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
             readPublishingHousesFromFile("publishingHouses.csv");
             readGenreFromFile("genre.csv");
+            readAuthorFromFile("author.csv");
     }
 
     public void tearDown(@Observes @Destroyed(ApplicationScoped.class) Object init) {
@@ -55,6 +59,21 @@ public class InitBean {
             stream.skip(1)
                     .map((String s) -> s.split(";"))
                     .map(a -> new Genre(a[0]))
+                    .forEach(em::merge);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readAuthorFromFile(String authorFileName) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        URL url = Thread.currentThread().getContextClassLoader()
+                .getResource(authorFileName);
+        try (Stream<String> stream = Files.lines(Paths.get(url.getPath()), StandardCharsets.UTF_8)) {
+            stream.skip(1)
+                    .map((String s) -> s.split(";"))
+                    .map(a -> new Author(a[0], a[1], LocalDate.parse(a[2], dtf)))
                     .forEach(em::merge);
         } catch (IOException e) {
             e.printStackTrace();
