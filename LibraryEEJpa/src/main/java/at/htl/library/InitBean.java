@@ -1,5 +1,6 @@
 package at.htl.library;
 
+import at.htl.library.entity.Genre;
 import at.htl.library.entity.PublishingHouse;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -25,6 +26,7 @@ public class InitBean {
 
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
             readPublishingHousesFromFile("publishingHouses.csv");
+            readGenreFromFile("genre.csv");
     }
 
     public void tearDown(@Observes @Destroyed(ApplicationScoped.class) Object init) {
@@ -39,6 +41,20 @@ public class InitBean {
             stream.skip(1)
                     .map((String s) -> s.split(";"))
                     .map(a -> new PublishingHouse(a[0], a[1], Long.valueOf(a[2]), a[3], a[4]))
+                    .forEach(em::merge);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readGenreFromFile(String genreFileName) {
+
+        URL url = Thread.currentThread().getContextClassLoader()
+                .getResource(genreFileName);
+        try (Stream<String> stream = Files.lines(Paths.get(url.getPath()), StandardCharsets.UTF_8)) {
+            stream.skip(1)
+                    .map((String s) -> s.split(";"))
+                    .map(a -> new Genre(a[0]))
                     .forEach(em::merge);
         } catch (IOException e) {
             e.printStackTrace();
