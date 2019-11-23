@@ -1,6 +1,7 @@
 package at.htl.library;
 
 import at.htl.library.entity.Author;
+import at.htl.library.entity.Book;
 import at.htl.library.entity.Genre;
 import at.htl.library.entity.PublishingHouse;
 
@@ -27,10 +28,26 @@ public class InitBean {
     @PersistenceContext
     EntityManager em;
 
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
-            readPublishingHousesFromFile("publishingHouses.csv");
-            readGenreFromFile("genre.csv");
-            readAuthorFromFile("author.csv");
+        readPublishingHousesFromFile("publishingHouses.csv");
+        readGenreFromFile("genre.csv");
+        readAuthorFromFile("author.csv");
+
+        em.persist(new Book("Harry Potter und der Stein der Weisen",
+                LocalDate.parse("28.07.1998", dtf),
+                em.find(Author.class, 1L),
+                em.find(Genre.class, 3L),
+                em.find(PublishingHouse.class, 1L)
+        ));
+
+        em.persist(new Book("ES",
+                LocalDate.parse("15.09.1986", dtf),
+                em.find(Author.class, 2L),
+                em.find(Genre.class, 1L),
+                em.find(PublishingHouse.class, 9L)
+        ));
     }
 
     public void tearDown(@Observes @Destroyed(ApplicationScoped.class) Object init) {
@@ -66,7 +83,6 @@ public class InitBean {
     }
 
     private void readAuthorFromFile(String authorFileName) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         URL url = Thread.currentThread().getContextClassLoader()
                 .getResource(authorFileName);
